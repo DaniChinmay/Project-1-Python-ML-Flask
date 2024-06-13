@@ -5,12 +5,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>OnePage Bootstrap Template - Index</title>
+  <title>LoadMaster</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/favicon2.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -43,7 +43,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="index.html">LoadMaster</a></h1>
+      <h1 class="logo"><a href="#hero">LoadMaster</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -63,13 +63,15 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
+    <img src="assets/img/hero-bg2.jpg" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.1;" data-aos="fade-in">
     <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
       <div class="row justify-content-center">
         <div class="col-xl-7 col-lg-9 text-center">
-          <h1>Intelligent Electricity Load Type forecasting in Steel Production</h1>
-          <h2>One Stop Solution</h2>
+          <h1 style="color: rgb(36, 21, 103);">Intelligent Electricity Load Type Forecasting in Steel Production</h1>
+          <h2 style="color: black;">One Stop Solution</h2>
         </div>
       </div>
+    </div>
       
 
       
@@ -172,12 +174,14 @@
 
     
     <!-- Models Section -->
-    <section id="models" class="models">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-          <h2>Predict Load Type</h2>
-          <p>Enter the values for each predictor to get the load type prediction.</p>
-        </div>
+<section id="models" class="models" style="padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(17, 141, 219, 0.1);">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Predict Load Type</h2>
+      <p>Enter the values for each predictor to get the load type prediction.</p>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
         <form id="prediction-form">
           <div class="form-group">
             <label for="usage">Usage_kWh</label>
@@ -200,11 +204,11 @@
             <input type="number" class="form-control" id="nsm" name="nsm" required>
           </div>
           <div class="form-group">
-            <label for="week_status_0">Week Status 0</label>
+            <label for="week_status_0">WeekDay; Type 1 if it's a weekday else 0</label>
             <input type="number" class="form-control" id="week_status_0" name="week_status_0" required>
           </div>
           <div class="form-group">
-            <label for="week_status_1">Week Status 1</label>
+            <label for="week_status_1">WeekEnd; Type 1 if it's a weekend else 0</label>
             <input type="number" class="form-control" id="week_status_1" name="week_status_1" required>
           </div>
           <button type="button" class="btn btn-primary" onclick="makePrediction()">Predict</button>
@@ -212,7 +216,14 @@
         </form>
         <div id="prediction-result" class="mt-3"></div>
       </div>
-    </section><!-- End Models Section -->
+      <div class="col-lg-6 d-flex align-items-center justify-content-center">
+        <img src="assets/img/modelimage.jpg" alt="Prediction Image" style="max-width: 100%; max-height: 100%;">
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Models Section -->
+
 
 
 
@@ -380,35 +391,45 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-   <!-- Script for Prediction -->
+  <!-- Script for Prediction -->
   <script>
     function makePrediction() {
-      const formData = {
-        usage: document.getElementById('usage').value,
-        lagc_rp: document.getElementById('lagc_rp').value,
-        lagc_pf: document.getElementById('lagc_pf').value,
-        leadc_pf: document.getElementById('leadc_pf').value,
-        nsm: document.getElementById('nsm').value,
-        week_status_0: document.getElementById('week_status_0').value,
-        week_status_1: document.getElementById('week_status_1').value
-      };
-      fetch('/predict', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      })
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('prediction-result').innerHTML = `<h4>Prediction Result: ${data.prediction}</h4>`;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('prediction-result').innerHTML = `<h4>Error: ${error}</h4>`;
-      });
+        const formData = {
+            usage: document.getElementById('usage').value,
+            lagc_rp: document.getElementById('lagc_rp').value,
+            lagc_pf: document.getElementById('lagc_pf').value,
+            leadc_pf: document.getElementById('leadc_pf').value,
+            nsm: document.getElementById('nsm').value,
+            week_status_0: document.getElementById('week_status_0').value,
+            week_status_1: document.getElementById('week_status_1').value
+        };
+        fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.prediction) {
+                window.location.href = `/results?usage=${formData.usage}&lagc_rp=${formData.lagc_rp}&lagc_pf=${formData.lagc_pf}&leadc_pf=${formData.leadc_pf}&nsm=${formData.nsm}&week_status_0=${formData.week_status_0}&week_status_1=${formData.week_status_1}&prediction=${data.prediction}`;
+            } else {
+                document.getElementById('prediction-result').innerHTML = `<h4>Error: Invalid response</h4>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('prediction-result').innerHTML = `<h4>Error: ${error}</h4>`;
+        });
     }
   </script>
+
 
 
 </body>

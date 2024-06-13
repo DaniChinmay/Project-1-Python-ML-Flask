@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #a0cbf0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .result-container {
+            background-color: #bed9e5;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .result-container h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .result-container p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Prediction Result</h1>
+        <div id="user-inputs"></div>
+        <div id="prediction-result" style="font-size: 2em; font-weight: bold;"></div>
+        <button onclick="goBack()" class="btn btn-primary mt-3">Go Back</button>
+    </div>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <h1>Prediction Results</h1>
+    <p>Usage: {{ usage }}</p>
+    <p>Lagging Current Reactive Power: {{ lagc_rp }}</p>
+    <p>Lagging Current Power Factor: {{ lagc_pf }}</p>
+    <p>Leading Current Power Factor: {{ leadc_pf }}</p>
+    <p>NSM: {{ nsm }}</p>
+    <p>WeekDay: {{ week_status_0 }}</p>
+    <p>WeekEnd: {{ week_status_1 }}</p>
+    <h2>Prediction: {{ prediction }}</h2>
+</body>
+</html>
