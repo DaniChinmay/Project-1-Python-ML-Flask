@@ -174,55 +174,55 @@
 
     
     <!-- Models Section -->
-<section id="models" class="models" style="padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(17, 141, 219, 0.1);">
-  <div class="container" data-aos="fade-up">
-    <div class="section-title">
-      <h2>Predict Load Type</h2>
-      <p>Enter the values for each predictor to get the load type prediction.</p>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <form id="prediction-form">
-          <div class="form-group">
-            <label for="usage">Usage_kWh</label>
-            <input type="number" class="form-control" id="usage" name="usage" required>
+    <section id="models" class="models" style="padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(17, 141, 219, 0.1);">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Predict Load Type</h2>
+          <p>Enter the values for each predictor to get the load type prediction.</p>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <form id="prediction-form" action="/predict" method="post">
+              <div class="form-group">
+                <label for="usage">Usage_kWh</label>
+                <input type="number" class="form-control" id="usage" name="usage" required>
+              </div>
+              <div class="form-group">
+                <label for="lagc_rp">Lagging Current Reactive Power</label>
+                <input type="number" class="form-control" id="lagc_rp" name="lagc_rp" required>
+              </div>
+              <div class="form-group">
+                <label for="lagc_pf">Lagging Current Power Factor</label>
+                <input type="number" class="form-control" id="lagc_pf" name="lagc_pf" required>
+              </div>
+              <div class="form-group">
+                <label for="leadc_pf">Leading Current Power Factor</label>
+                <input type="number" class="form-control" id="leadc_pf" name="leadc_pf" required>
+              </div>
+              <div class="form-group">
+                <label for="nsm">NSM</label>
+                <input type="number" class="form-control" id="nsm" name="nsm" required>
+              </div>
+              <div class="form-group">
+                <label for="week_status_0">WeekDay; Type 1 if it's a weekday else 0</label>
+                <input type="number" class="form-control" id="week_status_0" name="week_status_0" required>
+              </div>
+              <div class="form-group">
+                <label for="week_status_1">WeekEnd; Type 1 if it's a weekend else 0</label>
+                <input type="number" class="form-control" id="week_status_1" name="week_status_1" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Predict</button>
+              <button type="reset" class="btn btn-secondary">Reset</button>
+            </form>
+            <div id="prediction-result" class="mt-3"></div>
           </div>
-          <div class="form-group">
-            <label for="lagc_rp">Lagging Current Reactive Power</label>
-            <input type="number" class="form-control" id="lagc_rp" name="lagc_rp" required>
+          <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <img src="assets/img/modelimage.jpg" alt="Prediction Image" style="max-width: 100%; max-height: 100%;">
           </div>
-          <div class="form-group">
-            <label for="lagc_pf">Lagging Current Power Factor</label>
-            <input type="number" class="form-control" id="lagc_pf" name="lagc_pf" required>
-          </div>
-          <div class="form-group">
-            <label for="leadc_pf">Leading Current Power Factor</label>
-            <input type="number" class="form-control" id="leadc_pf" name="leadc_pf" required>
-          </div>
-          <div class="form-group">
-            <label for="nsm">NSM</label>
-            <input type="number" class="form-control" id="nsm" name="nsm" required>
-          </div>
-          <div class="form-group">
-            <label for="week_status_0">WeekDay; Type 1 if it's a weekday else 0</label>
-            <input type="number" class="form-control" id="week_status_0" name="week_status_0" required>
-          </div>
-          <div class="form-group">
-            <label for="week_status_1">WeekEnd; Type 1 if it's a weekend else 0</label>
-            <input type="number" class="form-control" id="week_status_1" name="week_status_1" required>
-          </div>
-          <button type="button" class="btn btn-primary" onclick="makePrediction()">Predict</button>
-          <button type="reset" class="btn btn-secondary">Reset</button>
-        </form>
-        <div id="prediction-result" class="mt-3"></div>
+        </div>
       </div>
-      <div class="col-lg-6 d-flex align-items-center justify-content-center">
-        <img src="assets/img/modelimage.jpg" alt="Prediction Image" style="max-width: 100%; max-height: 100%;">
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End Models Section -->
+    </section>
+    <!-- End Models Section -->
 
 
 
@@ -390,9 +390,11 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
-  <!-- Script for Prediction -->
+  
+  
+  <!-- Script for Prediction 
   <script>
+  
     function makePrediction() {
         const formData = {
             usage: document.getElementById('usage').value,
@@ -428,8 +430,9 @@
             document.getElementById('prediction-result').innerHTML = `<h4>Error: ${error}</h4>`;
         });
     }
-  </script>
-
+  
+  </script> 
+  -->  
 
 
 </body>

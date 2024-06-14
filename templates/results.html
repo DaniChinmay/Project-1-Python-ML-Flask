@@ -7,55 +7,120 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #a0cbf0;
+            background-color: #f0f8ff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .result-container {
-            background-color: #bed9e5;
+            background-color: #ffffff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            width: 70%;
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
         }
-        .result-container h1 {
+        .result-content {
+            width: 55%;
+        }
+        .result-content h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
+            color: #007bff;
+            text-align: left;
         }
-        .result-container p {
-            font-size: 1.2em;
+        .result-content table {
+            width: 100%;
             margin-bottom: 20px;
+            text-align: left;
         }
-        .btn {
+        .result-content table, .result-content th, .result-content td {
+            border: 1px solid #dddddd;
+            border-collapse: collapse;
+            padding: 8px;
+            text-align: left;
+        }
+        .result-content th {
+            background-color: #f2f2f2;
+        }
+        .result-content h2 {
+            margin-top: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #28a745;
+            text-align: left;
+        }
+        .result-content .btn {
             padding: 10px 20px;
             font-size: 1em;
+        }
+        .result-image {
+            width: 45%;
+            padding-left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-image img {
+            max-width: 100%;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <div class="result-container">
-        <h1>Prediction Result</h1>
-        <div id="user-inputs"></div>
-        <div id="prediction-result" style="font-size: 2em; font-weight: bold;"></div>
-        <button onclick="goBack()" class="btn btn-primary mt-3">Go Back</button>
+        <div class="result-content">
+            <h1>Prediction Results</h1>
+            <table>
+                <tr>
+                    <th>Predictor</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Usage</td>
+                    <td>{{ usage }}</td>
+                </tr>
+                <tr>
+                    <td>Lagging Current Reactive Power</td>
+                    <td>{{ lagc_rp }}</td>
+                </tr>
+                <tr>
+                    <td>Lagging Current Power Factor</td>
+                    <td>{{ lagc_pf }}</td>
+                </tr>
+                <tr>
+                    <td>Leading Current Power Factor</td>
+                    <td>{{ leadc_pf }}</td>
+                </tr>
+                <tr>
+                    <td>NSM</td>
+                    <td>{{ nsm }}</td>
+                </tr>
+                <tr>
+                    <td>Weekday</td>
+                    <td>{{ week_status_0 }}</td>
+                </tr>
+                <tr>
+                    <td>Weekend</td>
+                    <td>{{ week_status_1 }}</td>
+                </tr>
+            </table>
+            <h2>Prediction: {{ prediction }}</h2>
+            <button onclick="goBack()" class="btn btn-primary mt-3">Go Back</button>
+        </div>
+        <div class="result-image">
+            <img src="assets/img/prediction_image.jpg" alt="Prediction Image">
+        </div>
     </div>
     <script>
         function goBack() {
             window.history.back();
         }
     </script>
-    <h1>Prediction Results</h1>
-    <p>Usage: {{ usage }}</p>
-    <p>Lagging Current Reactive Power: {{ lagc_rp }}</p>
-    <p>Lagging Current Power Factor: {{ lagc_pf }}</p>
-    <p>Leading Current Power Factor: {{ leadc_pf }}</p>
-    <p>NSM: {{ nsm }}</p>
-    <p>WeekDay: {{ week_status_0 }}</p>
-    <p>WeekEnd: {{ week_status_1 }}</p>
-    <h2>Prediction: {{ prediction }}</h2>
 </body>
 </html>

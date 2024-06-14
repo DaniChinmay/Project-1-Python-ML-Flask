@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template
 import joblib
 import numpy as np
 
@@ -20,47 +20,28 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    try:
-        data = request.json
-        usage = float(data['usage'])
-        lagc_rp = float(data['lagc_rp'])
-        lagc_pf = float(data['lagc_pf'])
-        leadc_pf = float(data['leadc_pf'])
-        nsm = float(data['nsm'])
-        week_status_0 = float(data['week_status_0'])
-        week_status_1 = float(data['week_status_1'])
-    
+    if request.method == 'POST':
+        usage = float(request.form['usage'])
+        lagc_rp = float(request.form['lagc_rp'])
+        lagc_pf = float(request.form['lagc_pf'])
+        leadc_pf = float(request.form['leadc_pf'])
+        nsm = float(request.form['nsm'])
+        week_status_0 = float(request.form['week_status_0'])
+        week_status_1 = float(request.form['week_status_1'])
+
         features = np.array([[usage, lagc_rp, lagc_pf, leadc_pf, nsm, week_status_0, week_status_1]])
-        numerical_prediction = model(features)[0]
+        numerical_prediction = model.predict(features)[0]
         load_type_prediction = load_type_mapping[numerical_prediction]
-    
-        return jsonify(prediction=load_type_prediction)
-    except Exception as e:
-       # Log the error and return a JSON response
-        app.logger.error(f"Error processing prediction: {e}")
-        return jsonify(error=str(e)), 500
 
-@app.route('/results', methods=['POST','GET'])
-def results():
-    usage = request.args.get('usage')
-    lagc_rp = request.args.get('lagc_rp')
-    lagc_pf = request.args.get('lagc_pf')
-    leadc_pf = request.args.get('leadc_pf')
-    nsm = request.args.get('nsm')
-    week_status_0 = request.args.get('week_status_0')
-    week_status_1 = request.args.get('week_status_1')
-    prediction = request.args.get('prediction')
-    
-    return render_template('results.html', 
-                           usage=usage, 
-                           lagc_rp=lagc_rp, 
-                           lagc_pf=lagc_pf, 
-                           leadc_pf=leadc_pf, 
-                           nsm=nsm, 
-                           week_status_0=week_status_0, 
-                           week_status_1=week_status_1, 
-                           prediction=prediction)
-
+        return render_template('results.html', 
+                               usage=usage, 
+                               lagc_rp=lagc_rp, 
+                               lagc_pf=lagc_pf, 
+                               leadc_pf=leadc_pf, 
+                               nsm=nsm, 
+                               week_status_0=week_status_0, 
+                               week_status_1=week_status_1, 
+                               prediction=load_type_prediction)
 
 if __name__ == '__main__':
     app.run(debug=True)
